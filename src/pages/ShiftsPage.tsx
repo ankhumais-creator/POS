@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Clock, PlayCircle, StopCircle, DollarSign, AlertCircle } from 'lucide-react'
+import { Clock, PlayCircle, StopCircle, AlertCircle } from 'lucide-react'
 import { db, addToSyncQueue, getCurrentShift } from '@/lib/db'
 import { formatCurrency, formatDate, generateId } from '@/lib/utils'
 import { useAuthStore } from '@/stores/authStore'
@@ -38,7 +38,7 @@ export default function ShiftsPage() {
             id: generateId(),
             cashier_id: user.id,
             cashier_name: user.full_name,
-            opening_cash: parseFloat(openingCash),
+            opening_cash: Number.parseFloat(openingCash),
             total_sales: 0,
             total_transactions: 0,
             status: 'open',
@@ -46,7 +46,7 @@ export default function ShiftsPage() {
         }
 
         await db.shifts.add(shift)
-        await addToSyncQueue('shifts', 'insert', shift)
+        await addToSyncQueue('shifts', 'insert', shift as unknown as Record<string, unknown>)
 
         setShowOpenModal(false)
         setOpeningCash('')
@@ -58,7 +58,7 @@ export default function ShiftsPage() {
 
         // Calculate expected cash and difference
         const expectedCash = currentShift.opening_cash + currentShift.total_sales
-        const actualCash = parseFloat(closingCash)
+        const actualCash = Number.parseFloat(closingCash)
         const difference = actualCash - expectedCash
 
         const updatedShift: Shift = {
@@ -72,7 +72,7 @@ export default function ShiftsPage() {
         }
 
         await db.shifts.put(updatedShift)
-        await addToSyncQueue('shifts', 'update', updatedShift)
+        await addToSyncQueue('shifts', 'update', updatedShift as unknown as Record<string, unknown>)
 
         setShowCloseModal(false)
         setClosingCash('')
@@ -204,10 +204,13 @@ export default function ShiftsPage() {
                             <div>
                                 <label className="block text-sm font-medium text-slate-400 mb-1.5">Kas Awal *</label>
                                 <div className="relative">
-                                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                                    {!openingCash && (
+                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-medium pointer-events-none">Rp</span>
+                                    )}
                                     <input
                                         type="number"
-                                        className="input pl-10"
+                                        className="input"
+                                        style={{ paddingLeft: openingCash ? '0.875rem' : '2.5rem' }}
                                         placeholder="0"
                                         value={openingCash}
                                         onChange={(e) => setOpeningCash(e.target.value)}
@@ -264,13 +267,13 @@ export default function ShiftsPage() {
                             </div>
 
                             {closingCash && (
-                                <div className={`p-3 rounded-lg flex items-center gap-2 ${parseFloat(closingCash) - (currentShift.opening_cash + currentShift.total_sales) >= 0
-                                        ? 'bg-emerald-500/10 border border-emerald-500/30'
-                                        : 'bg-red-500/10 border border-red-500/30'
+                                <div className={`p-3 rounded-lg flex items-center gap-2 ${Number.parseFloat(closingCash) - (currentShift.opening_cash + currentShift.total_sales) >= 0
+                                    ? 'bg-emerald-500/10 border border-emerald-500/30'
+                                    : 'bg-red-500/10 border border-red-500/30'
                                     }`}>
                                     <AlertCircle className="w-4 h-4" />
                                     <span className="text-sm">
-                                        Selisih: {formatCurrency(parseFloat(closingCash) - (currentShift.opening_cash + currentShift.total_sales))}
+                                        Selisih: {formatCurrency(Number.parseFloat(closingCash) - (currentShift.opening_cash + currentShift.total_sales))}
                                     </span>
                                 </div>
                             )}

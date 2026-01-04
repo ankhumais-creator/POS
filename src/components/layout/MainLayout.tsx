@@ -1,8 +1,9 @@
+import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
     LayoutDashboard, ShoppingCart, Package, FolderOpen,
     Receipt, BarChart3, Settings, LogOut, Users, Clock,
-    Tag, ClipboardList, UserCircle, History
+    Tag, ClipboardList, UserCircle, History, Menu, X
 } from 'lucide-react'
 import { useAuthStore } from '@/stores/authStore'
 import { useSettingsStore } from '@/stores/settingsStore'
@@ -30,6 +31,7 @@ const menuItems = [
 ]
 
 export default function MainLayout({ children, title }: MainLayoutProps) {
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false)
     const location = useLocation()
     const navigate = useNavigate()
     const { user, logout } = useAuthStore()
@@ -40,14 +42,40 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
         navigate('/login')
     }
 
+    const handleNavClick = () => {
+        setIsDrawerOpen(false)
+    }
+
     return (
         <div className="flex h-screen bg-slate-950">
-            {/* Sidebar */}
-            <aside className="w-56 bg-slate-900 border-r border-slate-800 flex flex-col">
+            {/* Mobile Overlay */}
+            {isDrawerOpen && (
+                <div
+                    className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+                    onClick={() => setIsDrawerOpen(false)}
+                />
+            )}
+
+            {/* Sidebar - Desktop: always visible, Mobile: drawer */}
+            <aside className={`
+                fixed lg:static inset-y-0 left-0 z-50
+                w-56 bg-slate-900 border-r border-slate-800 flex flex-col
+                transform transition-transform duration-200 ease-in-out
+                ${isDrawerOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+            `}>
                 {/* Logo */}
-                <div className="p-4 border-b border-slate-800">
-                    <h1 className="text-xl font-bold text-blue-400">POS Kasir</h1>
-                    <p className="text-xs text-slate-500 mt-0.5">Aplikasi Penjualan</p>
+                <div className="p-4 border-b border-slate-800 flex items-center justify-between">
+                    <div>
+                        <h1 className="text-xl font-bold text-blue-400">POS Kasir</h1>
+                        <p className="text-xs text-slate-500 mt-0.5">Aplikasi Penjualan</p>
+                    </div>
+                    {/* Close button - mobile only */}
+                    <button
+                        className="lg:hidden p-1.5 rounded-lg hover:bg-slate-800 text-slate-400"
+                        onClick={() => setIsDrawerOpen(false)}
+                    >
+                        <X className="w-5 h-5" />
+                    </button>
                 </div>
 
                 {/* Navigation */}
@@ -58,6 +86,7 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
                             <Link
                                 key={item.path}
                                 to={item.path}
+                                onClick={handleNavClick}
                                 className={`flex items-center gap-3 px-3 py-2 rounded-lg mb-0.5 text-sm ${isActive
                                     ? 'bg-blue-500/20 text-blue-400 font-medium'
                                     : 'text-slate-400 hover:bg-slate-800 hover:text-white'
@@ -95,7 +124,16 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
             <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
                 {/* Header */}
                 <header className="h-14 bg-slate-900 border-b border-slate-800 flex items-center justify-between px-4">
-                    <h2 className="text-lg font-semibold">{title || 'Dashboard'}</h2>
+                    <div className="flex items-center gap-3">
+                        {/* Hamburger menu - mobile only */}
+                        <button
+                            className="lg:hidden p-1.5 rounded-lg hover:bg-slate-800 text-slate-400"
+                            onClick={() => setIsDrawerOpen(true)}
+                        >
+                            <Menu className="w-5 h-5" />
+                        </button>
+                        <h2 className="text-lg font-semibold">{title || 'Dashboard'}</h2>
+                    </div>
 
                     <div className="flex items-center gap-3">
                         {/* Online/Offline Indicator */}
