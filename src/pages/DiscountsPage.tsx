@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Plus, Search, Edit2, Trash2, Percent, Tag, Calendar } from 'lucide-react'
+import { Plus, Search, Edit2, Trash2, Percent, Tag, Calendar, RefreshCw, X } from 'lucide-react'
 import { db, addToSyncQueue } from '@/lib/db'
 import { formatCurrency, formatDate, generateId } from '@/lib/utils'
 import type { Discount } from '@/types'
@@ -129,9 +129,9 @@ export default function DiscountsPage() {
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                         <input type="text" className="input pl-10" placeholder="Cari kode diskon..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                     </div>
-                    <button className="btn btn-primary" onClick={() => { resetForm(); setEditingDiscount(null); setShowModal(true) }}>
+                    <button className="btn btn-primary" onClick={() => { resetForm(); setEditingDiscount(null); setShowModal(true) }} data-testid="add-discount-button">
                         <Plus className="w-4 h-4" />
-                        Tambah Diskon
+                        Tambah
                     </button>
                 </div>
 
@@ -209,38 +209,42 @@ export default function DiscountsPage() {
             </div>
 
             {showModal && (
-                <div className="modal-overlay" onClick={() => setShowModal(false)}>
+                <div className="modal-overlay" data-testid="discount-form-modal" onClick={() => setShowModal(false)}>
                     <div className="modal-content max-w-md" onClick={e => e.stopPropagation()}>
                         <div className="modal-header">
                             <h3 className="text-lg font-semibold">{editingDiscount ? 'Edit' : 'Tambah'} Diskon</h3>
-                            <button onClick={() => setShowModal(false)} className="p-1.5 rounded-lg hover:bg-slate-700 text-slate-400">×</button>
+                            <button onClick={() => setShowModal(false)} className="p-1.5 rounded-lg hover:bg-slate-700 text-slate-400">
+                                <X className="w-5 h-5" />
+                            </button>
                         </div>
                         <form onSubmit={handleSubmit}>
                             <div className="modal-body space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium text-slate-400 mb-1.5">Kode Voucher *</label>
                                     <div className="flex gap-2">
-                                        <input type="text" className="input flex-1 font-mono uppercase" value={formData.code} onChange={(e) => setFormData({ ...formData, code: e.target.value.toUpperCase() })} required placeholder="DISC20" />
-                                        <button type="button" className="btn btn-secondary" onClick={generateCode}>Generate</button>
+                                        <input type="text" className="input flex-1 font-mono uppercase" value={formData.code} onChange={(e) => setFormData({ ...formData, code: e.target.value.toUpperCase() })} required placeholder="DISC20" data-testid="discount-code-field" />
+                                        <button type="button" className="btn btn-secondary" onClick={generateCode} data-testid="generate-code-button">
+                                            <RefreshCw className="w-4 h-4" />
+                                        </button>
                                     </div>
                                 </div>
 
                                 <div>
                                     <label className="block text-sm font-medium text-slate-400 mb-1.5">Nama Promo *</label>
-                                    <input type="text" className="input" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required placeholder="Diskon Tahun Baru" />
+                                    <input type="text" className="input" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required placeholder="Diskon Tahun Baru" data-testid="discount-name-field" />
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium text-slate-400 mb-1.5">Tipe</label>
-                                        <select className="input" value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value as 'percentage' | 'fixed' })}>
+                                        <select className="input" value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value as 'percentage' | 'fixed' })} data-testid="discount-type-field">
                                             <option value="percentage">Persen (%)</option>
                                             <option value="fixed">Nominal (Rp)</option>
                                         </select>
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-slate-400 mb-1.5">Nilai *</label>
-                                        <input type="number" className="input" value={formData.value} onChange={(e) => setFormData({ ...formData, value: e.target.value })} required placeholder={formData.type === 'percentage' ? '10' : '10000'} />
+                                        <input type="number" className="input" value={formData.value} onChange={(e) => setFormData({ ...formData, value: e.target.value })} required placeholder={formData.type === 'percentage' ? '10' : '10000'} data-testid="discount-value-field" />
                                     </div>
                                 </div>
 
@@ -278,7 +282,7 @@ export default function DiscountsPage() {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Batal</button>
-                                <button type="submit" className="btn btn-primary">Simpan</button>
+                                <button type="submit" className="btn btn-primary" data-testid="submit-discount-button">Simpan</button>
                             </div>
                         </form>
                     </div>
@@ -287,3 +291,4 @@ export default function DiscountsPage() {
         </MainLayout>
     )
 }
+
