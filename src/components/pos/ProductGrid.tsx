@@ -10,7 +10,7 @@ interface ProductGridProps {
 export default function ProductGrid({ products, onAddProduct }: ProductGridProps) {
     if (products.length === 0) {
         return (
-            <div className="flex-1 flex items-center justify-center text-slate-500">
+            <div className="flex-1 flex items-center justify-center text-slate-500" data-testid="product-grid-empty">
                 <div className="text-center">
                     <Package className="w-12 h-12 mx-auto mb-3 opacity-50" />
                     <p>Tidak ada produk ditemukan</p>
@@ -20,7 +20,7 @@ export default function ProductGrid({ products, onAddProduct }: ProductGridProps
     }
 
     return (
-        <div className="flex-1 overflow-auto p-4">
+        <div className="flex-1 overflow-auto p-4" data-testid="product-grid">
             <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
                 {products.map(product => (
                     <button
@@ -29,6 +29,7 @@ export default function ProductGrid({ products, onAddProduct }: ProductGridProps
                         className={`product-card ${product.stock <= 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
                         disabled={product.stock <= 0}
                         onClick={() => onAddProduct(product)}
+                        data-testid={`product-card-${product.id}`}
                     >
                         <div className="product-image">
                             {product.image_url ? (
@@ -55,4 +56,5 @@ export default function ProductGrid({ products, onAddProduct }: ProductGridProps
         </div>
     )
 }
+
 
