@@ -120,10 +120,11 @@ export default function ProductsPage() {
                 {/* Header Actions */}
                 <div className="flex items-center gap-4">
                     <div className="flex-1 relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none z-10" />
                         <input
                             type="text"
-                            className="input pl-10"
+                            className="input"
+                            style={{ paddingLeft: '2.5rem' }}
                             placeholder="Cari produk..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -200,8 +201,8 @@ export default function ProductsPage() {
                                             </td>
                                             <td className="p-4 text-center">
                                                 <span className={`badge ${product.stock <= 0 ? 'badge-danger' :
-                                                        product.stock <= product.min_stock ? 'badge-warning' :
-                                                            'badge-success'
+                                                    product.stock <= product.min_stock ? 'badge-warning' :
+                                                        'badge-success'
                                                     }`}>
                                                     {product.stock}
                                                 </span>

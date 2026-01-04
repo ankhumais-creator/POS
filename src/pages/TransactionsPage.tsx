@@ -63,10 +63,11 @@ export default function TransactionsPage() {
                 {/* Filters */}
                 <div className="flex flex-wrap items-center gap-4">
                     <div className="flex-1 relative min-w-[200px]">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none z-10" />
                         <input
                             type="text"
-                            className="input pl-10"
+                            className="input"
+                            style={{ paddingLeft: '2.5rem' }}
                             placeholder="Cari no. transaksi..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -135,7 +136,7 @@ export default function TransactionsPage() {
                                             </td>
                                             <td className="p-4 text-center">
                                                 <span className={`badge ${tx.status === 'completed' ? 'badge-success' :
-                                                        tx.status === 'voided' ? 'badge-danger' : 'badge-warning'
+                                                    tx.status === 'voided' ? 'badge-danger' : 'badge-warning'
                                                     }`}>
                                                     {tx.status === 'completed' ? 'Selesai' :
                                                         tx.status === 'voided' ? 'Dibatalkan' : 'Pending'}

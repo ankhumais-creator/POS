@@ -8,14 +8,13 @@ export function generateId(): string {
         `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
 }
 
-// Format currency (IDR)
+// Format currency (IDR) - Always shows "Rp" prefix
 export function formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
+    const formattedNumber = new Intl.NumberFormat('id-ID', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0
     }).format(amount)
+    return `Rp${formattedNumber}`
 }
 
 // Format date

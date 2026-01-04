@@ -11,10 +11,11 @@ export function POSSearchBar({ searchQuery, onSearchChange, onScanClick }: POSSe
     return (
         <div className="flex gap-2 mb-3" data-testid="pos-search-bar">
             <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none z-10" />
                 <input
                     type="text"
-                    className="input pl-10"
+                    className="input"
+                    style={{ paddingLeft: '2.5rem' }}
                     placeholder="Cari produk atau scan barcode..."
                     value={searchQuery}
                     onChange={(e) => onSearchChange(e.target.value)}

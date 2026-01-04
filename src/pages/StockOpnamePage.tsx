@@ -123,10 +123,11 @@ export default function StockOpnamePage() {
                     <div className="card-header flex items-center justify-between">
                         <h3 className="font-semibold">Penyesuaian Stok</h3>
                         <div className="relative w-64">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none z-10" />
                             <input
                                 type="text"
-                                className="input pl-9 py-1.5 text-sm"
+                                className="input py-1.5 text-sm"
+                                style={{ paddingLeft: '2.25rem' }}
                                 placeholder="Cari produk..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -161,8 +162,8 @@ export default function StockOpnamePage() {
                                         <td className="p-4 text-center text-slate-400">{product.min_stock}</td>
                                         <td className="p-4 text-center">
                                             <span className={`badge ${product.stock <= 0 ? 'badge-danger' :
-                                                    product.stock <= product.min_stock ? 'badge-warning' :
-                                                        'badge-success'
+                                                product.stock <= product.min_stock ? 'badge-warning' :
+                                                    'badge-success'
                                                 }`}>
                                                 {product.stock <= 0 ? 'Habis' : product.stock <= product.min_stock ? 'Rendah' : 'OK'}
                                             </span>

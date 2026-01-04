@@ -7,6 +7,7 @@ import MainLayout from '@/components/layout/MainLayout'
 
 export default function DiscountsPage() {
     const [discounts, setDiscounts] = useState<Discount[]>([])
+    const [discountTotals, setDiscountTotals] = useState<Record<string, number>>({})
     const [searchQuery, setSearchQuery] = useState('')
     const [showModal, setShowModal] = useState(false)
     const [editingDiscount, setEditingDiscount] = useState<Discount | null>(null)
@@ -29,8 +30,20 @@ export default function DiscountsPage() {
     }, [])
 
     const loadDiscounts = async () => {
-        const data = await db.discounts.orderBy('created_at').reverse().toArray()
+        // Get all discounts and sort in memory (created_at is not indexed)
+        const data = await db.discounts.toArray()
+        data.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
         setDiscounts(data)
+
+        // Calculate total discount used for each code from transactions
+        const transactions = await db.transactions.filter(t => t.status === 'completed' && t.discount > 0).toArray()
+        const totals: Record<string, number> = {}
+        transactions.forEach(tx => {
+            if (tx.discount_code) {
+                totals[tx.discount_code] = (totals[tx.discount_code] || 0) + tx.discount
+            }
+        })
+        setDiscountTotals(totals)
     }
 
     const filteredDiscounts = discounts.filter(d =>
@@ -41,29 +54,34 @@ export default function DiscountsPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
-        const discountData: Discount = {
-            id: editingDiscount?.id || generateId(),
-            code: formData.code.toUpperCase(),
-            name: formData.name,
-            type: formData.type,
-            value: parseFloat(formData.value),
-            min_purchase: formData.min_purchase ? parseFloat(formData.min_purchase) : undefined,
-            max_discount: formData.max_discount ? parseFloat(formData.max_discount) : undefined,
-            usage_limit: formData.usage_limit ? parseInt(formData.usage_limit) : undefined,
-            used_count: editingDiscount?.used_count || 0,
-            start_date: formData.start_date || undefined,
-            end_date: formData.end_date || undefined,
-            is_active: formData.is_active,
-            created_at: editingDiscount?.created_at || new Date().toISOString()
+        try {
+            const discountData: Discount = {
+                id: editingDiscount?.id || generateId(),
+                code: formData.code.toUpperCase(),
+                name: formData.name,
+                type: formData.type,
+                value: parseFloat(formData.value),
+                min_purchase: formData.min_purchase ? parseFloat(formData.min_purchase) : undefined,
+                max_discount: formData.max_discount ? parseFloat(formData.max_discount) : undefined,
+                usage_limit: formData.usage_limit ? parseInt(formData.usage_limit) : undefined,
+                used_count: editingDiscount?.used_count || 0,
+                start_date: formData.start_date || undefined,
+                end_date: formData.end_date || undefined,
+                is_active: formData.is_active,
+                created_at: editingDiscount?.created_at || new Date().toISOString()
+            }
+
+            await db.discounts.put(discountData)
+            await addToSyncQueue('discounts', editingDiscount ? 'update' : 'insert', discountData)
+
+            setShowModal(false)
+            setEditingDiscount(null)
+            resetForm()
+            loadDiscounts()
+        } catch (error) {
+            console.error('Error saving discount:', error)
+            alert('Gagal menyimpan diskon. Silakan coba lagi.')
         }
-
-        await db.discounts.put(discountData)
-        await addToSyncQueue('discounts', editingDiscount ? 'update' : 'insert', discountData)
-
-        setShowModal(false)
-        setEditingDiscount(null)
-        resetForm()
-        loadDiscounts()
     }
 
     const handleEdit = (discount: Discount) => {
@@ -126,8 +144,8 @@ export default function DiscountsPage() {
             <div className="space-y-4">
                 <div className="flex items-center gap-4">
                     <div className="flex-1 relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                        <input type="text" className="input pl-10" placeholder="Cari kode diskon..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none z-10" />
+                        <input type="text" className="input" style={{ paddingLeft: '2.5rem' }} placeholder="Cari kode diskon..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                     </div>
                     <button className="btn btn-primary" onClick={() => { resetForm(); setEditingDiscount(null); setShowModal(true) }} data-testid="add-discount-button">
                         <Plus className="w-4 h-4" />
@@ -144,6 +162,7 @@ export default function DiscountsPage() {
                                     <th className="text-left p-4 text-sm font-medium text-slate-400">Nama</th>
                                     <th className="text-center p-4 text-sm font-medium text-slate-400">Nilai</th>
                                     <th className="text-center p-4 text-sm font-medium text-slate-400">Penggunaan</th>
+                                    <th className="text-right p-4 text-sm font-medium text-slate-400">Total Diskon</th>
                                     <th className="text-center p-4 text-sm font-medium text-slate-400">Periode</th>
                                     <th className="text-center p-4 text-sm font-medium text-slate-400">Status</th>
                                     <th className="text-center p-4 text-sm font-medium text-slate-400">Aksi</th>
@@ -152,7 +171,7 @@ export default function DiscountsPage() {
                             <tbody>
                                 {filteredDiscounts.length === 0 ? (
                                     <tr>
-                                        <td colSpan={7} className="p-8 text-center text-slate-500">
+                                        <td colSpan={8} className="p-8 text-center text-slate-500">
                                             <Tag className="w-12 h-12 mx-auto mb-3 opacity-50" />
                                             <p>Belum ada diskon</p>
                                         </td>
@@ -173,6 +192,9 @@ export default function DiscountsPage() {
                                             </td>
                                             <td className="p-4 text-center text-sm">
                                                 {discount.used_count}{discount.usage_limit ? `/${discount.usage_limit}` : ''}
+                                            </td>
+                                            <td className="p-4 text-right text-sm font-semibold text-emerald-400">
+                                                {formatCurrency(discountTotals[discount.code] || 0)}
                                             </td>
                                             <td className="p-4 text-center text-sm text-slate-400">
                                                 {discount.start_date || discount.end_date ? (
