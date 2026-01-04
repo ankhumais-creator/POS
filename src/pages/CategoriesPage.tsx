@@ -15,6 +15,7 @@ export default function CategoriesPage() {
     const [showModal, setShowModal] = useState(false)
     const [editingCategory, setEditingCategory] = useState<Category | null>(null)
     const [isLoading, setIsLoading] = useState(false)
+    const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
 
     const [formData, setFormData] = useState({
         name: '',
@@ -89,6 +90,32 @@ export default function CategoriesPage() {
         })
     }
 
+    const handleDragStart = (index: number) => {
+        setDraggedIndex(index)
+    }
+
+    const handleDragOver = (e: React.DragEvent, index: number) => {
+        e.preventDefault()
+        if (draggedIndex === null || draggedIndex === index) return
+
+        const newCategories = [...categories]
+        const [draggedItem] = newCategories.splice(draggedIndex, 1)
+        newCategories.splice(index, 0, draggedItem)
+        setCategories(newCategories)
+        setDraggedIndex(index)
+    }
+
+    const handleDragEnd = async () => {
+        setDraggedIndex(null)
+        // Save new order to database
+        for (let i = 0; i < categories.length; i++) {
+            const cat = categories[i]
+            if (cat.sort_order !== i) {
+                await db.categories.update(cat.id, { sort_order: i })
+            }
+        }
+    }
+
     return (
         <MainLayout title="Manajemen Kategori">
             <div className="space-y-4">
@@ -122,10 +149,14 @@ export default function CategoriesPage() {
                         categories.map((category, index) => (
                             <div
                                 key={category.id}
-                                className="card hover:border-slate-600 transition-colors"
+                                className={`card hover:border-slate-600 transition-colors ${draggedIndex === index ? 'opacity-50' : ''}`}
+                                draggable
+                                onDragStart={() => handleDragStart(index)}
+                                onDragOver={(e) => handleDragOver(e, index)}
+                                onDragEnd={handleDragEnd}
                             >
                                 <div className="p-4 flex items-center gap-4">
-                                    <div className="text-slate-600 cursor-grab">
+                                    <div className="text-slate-600 cursor-grab active:cursor-grabbing">
                                         <GripVertical className="w-5 h-5" />
                                     </div>
                                     <div
@@ -201,8 +232,8 @@ export default function CategoriesPage() {
                                                 key={color}
                                                 type="button"
                                                 className={`w-8 h-8 rounded-lg transition-all ${formData.color === color
-                                                        ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-800'
-                                                        : ''
+                                                    ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-800'
+                                                    : ''
                                                     }`}
                                                 style={{ backgroundColor: color }}
                                                 onClick={() => setFormData({ ...formData, color })}

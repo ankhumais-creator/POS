@@ -29,7 +29,9 @@ export default function ProductsPage() {
     }, [])
 
     const loadData = async () => {
-        const prods = await db.products.orderBy('name').toArray()
+        // Only load active products (is_active !== false)
+        const prods = await db.products.filter(p => p.is_active !== false).toArray()
+        prods.sort((a, b) => a.name.localeCompare(b.name))
         setProducts(prods)
 
         const cats = await db.categories.orderBy('sort_order').toArray()
