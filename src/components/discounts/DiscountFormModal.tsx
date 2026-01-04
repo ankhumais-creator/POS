@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useId } from 'react'
 import { X, RefreshCw } from 'lucide-react'
 import type { Discount } from '@/types'
 
@@ -10,8 +10,8 @@ interface DiscountFormData {
     min_purchase: string
     max_discount: string
     usage_limit: string
-    valid_from: string
-    valid_until: string
+    start_date: string
+    end_date: string
 }
 
 interface DiscountFormModalProps {
@@ -29,11 +29,12 @@ const initialFormData: DiscountFormData = {
     min_purchase: '',
     max_discount: '',
     usage_limit: '',
-    valid_from: '',
-    valid_until: ''
+    start_date: '',
+    end_date: ''
 }
 
 export function DiscountFormModal({ isOpen, editingDiscount, onClose, onSubmit }: DiscountFormModalProps) {
+    const formId = useId()
     const [formData, setFormData] = useState<DiscountFormData>(
         editingDiscount ? {
             code: editingDiscount.code,
@@ -43,8 +44,8 @@ export function DiscountFormModal({ isOpen, editingDiscount, onClose, onSubmit }
             min_purchase: editingDiscount.min_purchase ? String(editingDiscount.min_purchase) : '',
             max_discount: editingDiscount.max_discount ? String(editingDiscount.max_discount) : '',
             usage_limit: editingDiscount.usage_limit ? String(editingDiscount.usage_limit) : '',
-            valid_from: editingDiscount.valid_from || '',
-            valid_until: editingDiscount.valid_until || ''
+            start_date: editingDiscount.start_date || '',
+            end_date: editingDiscount.end_date || ''
         } : initialFormData
     )
 
@@ -78,9 +79,10 @@ export function DiscountFormModal({ isOpen, editingDiscount, onClose, onSubmit }
                 <form onSubmit={handleSubmit} className="modal-body" data-testid="discount-form">
                     <div className="grid gap-4">
                         <div>
-                            <label className="block text-sm text-slate-400 mb-1">Kode Diskon</label>
+                            <label htmlFor={`${formId}-code`} className="block text-sm text-slate-400 mb-1">Kode Diskon</label>
                             <div className="flex gap-2">
                                 <input
+                                    id={`${formId}-code`}
                                     type="text"
                                     className="input flex-1 uppercase"
                                     placeholder="PROMO2024"
@@ -102,8 +104,9 @@ export function DiscountFormModal({ isOpen, editingDiscount, onClose, onSubmit }
                         </div>
 
                         <div>
-                            <label className="block text-sm text-slate-400 mb-1">Nama Promo</label>
+                            <label htmlFor={`${formId}-name`} className="block text-sm text-slate-400 mb-1">Nama Promo</label>
                             <input
+                                id={`${formId}-name`}
                                 type="text"
                                 className="input"
                                 placeholder="Nama promo"
@@ -116,8 +119,9 @@ export function DiscountFormModal({ isOpen, editingDiscount, onClose, onSubmit }
 
                         <div className="grid grid-cols-2 gap-3">
                             <div>
-                                <label className="block text-sm text-slate-400 mb-1">Tipe</label>
+                                <label htmlFor={`${formId}-type`} className="block text-sm text-slate-400 mb-1">Tipe</label>
                                 <select
+                                    id={`${formId}-type`}
                                     className="input"
                                     value={formData.type}
                                     onChange={(e) => setFormData(prev => ({ ...prev, type: e.target.value as 'percentage' | 'fixed' }))}
@@ -128,8 +132,9 @@ export function DiscountFormModal({ isOpen, editingDiscount, onClose, onSubmit }
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-sm text-slate-400 mb-1">Nilai</label>
+                                <label htmlFor={`${formId}-value`} className="block text-sm text-slate-400 mb-1">Nilai</label>
                                 <input
+                                    id={`${formId}-value`}
                                     type="number"
                                     className="input"
                                     placeholder={formData.type === 'percentage' ? '10' : '50000'}
@@ -143,8 +148,9 @@ export function DiscountFormModal({ isOpen, editingDiscount, onClose, onSubmit }
 
                         <div className="grid grid-cols-2 gap-3">
                             <div>
-                                <label className="block text-sm text-slate-400 mb-1">Min. Pembelian</label>
+                                <label htmlFor={`${formId}-min`} className="block text-sm text-slate-400 mb-1">Min. Pembelian</label>
                                 <input
+                                    id={`${formId}-min`}
                                     type="number"
                                     className="input"
                                     placeholder="100000"
@@ -154,8 +160,9 @@ export function DiscountFormModal({ isOpen, editingDiscount, onClose, onSubmit }
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm text-slate-400 mb-1">Maks. Diskon</label>
+                                <label htmlFor={`${formId}-max`} className="block text-sm text-slate-400 mb-1">Maks. Diskon</label>
                                 <input
+                                    id={`${formId}-max`}
                                     type="number"
                                     className="input"
                                     placeholder="50000"
@@ -167,8 +174,9 @@ export function DiscountFormModal({ isOpen, editingDiscount, onClose, onSubmit }
                         </div>
 
                         <div>
-                            <label className="block text-sm text-slate-400 mb-1">Batas Penggunaan</label>
+                            <label htmlFor={`${formId}-limit`} className="block text-sm text-slate-400 mb-1">Batas Penggunaan</label>
                             <input
+                                id={`${formId}-limit`}
                                 type="number"
                                 className="input"
                                 placeholder="100 (kosongkan untuk unlimited)"
@@ -180,23 +188,25 @@ export function DiscountFormModal({ isOpen, editingDiscount, onClose, onSubmit }
 
                         <div className="grid grid-cols-2 gap-3">
                             <div>
-                                <label className="block text-sm text-slate-400 mb-1">Berlaku Dari</label>
+                                <label htmlFor={`${formId}-start`} className="block text-sm text-slate-400 mb-1">Berlaku Dari</label>
                                 <input
+                                    id={`${formId}-start`}
                                     type="date"
                                     className="input"
-                                    value={formData.valid_from}
-                                    onChange={(e) => setFormData(prev => ({ ...prev, valid_from: e.target.value }))}
-                                    data-testid="discount-valid-from-field"
+                                    value={formData.start_date}
+                                    onChange={(e) => setFormData(prev => ({ ...prev, start_date: e.target.value }))}
+                                    data-testid="discount-start-date-field"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm text-slate-400 mb-1">Berlaku Sampai</label>
+                                <label htmlFor={`${formId}-end`} className="block text-sm text-slate-400 mb-1">Berlaku Sampai</label>
                                 <input
+                                    id={`${formId}-end`}
                                     type="date"
                                     className="input"
-                                    value={formData.valid_until}
-                                    onChange={(e) => setFormData(prev => ({ ...prev, valid_until: e.target.value }))}
-                                    data-testid="discount-valid-until-field"
+                                    value={formData.end_date}
+                                    onChange={(e) => setFormData(prev => ({ ...prev, end_date: e.target.value }))}
+                                    data-testid="discount-end-date-field"
                                 />
                             </div>
                         </div>

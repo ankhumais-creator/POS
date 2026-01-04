@@ -28,6 +28,11 @@ export function formatDate(dateStr: string, options?: Intl.DateTimeFormatOptions
     })
 }
 
+// Format date only (YYYY-MM-DD)
+export function formatDateOnly(date: Date): string {
+    return date.toISOString().split('T')[0]
+}
+
 // Format time
 export function formatTime(dateStr: string): string {
     const date = new Date(dateStr)
