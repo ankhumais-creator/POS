@@ -215,3 +215,18 @@ export interface AppNotification {
     created_at: string
 }
 
+// Activity Log Types
+export interface ActivityLog {
+    id: string
+    action: 'login' | 'logout' | 'transaction' | 'void_transaction' | 'product_add' | 'product_edit' | 'product_delete' |
+    'category_add' | 'category_edit' | 'category_delete' | 'stock_adjust' | 'discount_add' | 'discount_edit' |
+    'customer_add' | 'customer_edit' | 'shift_open' | 'shift_close' | 'settings_update' | 'other'
+    description: string
+    user_id: string
+    user_name: string
+    entity_type?: string
+    entity_id?: string
+    entity_name?: string
+    details?: Record<string, unknown>
+    created_at: string
+}

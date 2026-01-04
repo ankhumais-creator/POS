@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
     LayoutDashboard, ShoppingCart, Package, FolderOpen,
     Receipt, BarChart3, Settings, LogOut, Users, Clock,
-    Tag, ClipboardList, UserCircle
+    Tag, ClipboardList, UserCircle, History
 } from 'lucide-react'
 import { useAuthStore } from '@/stores/authStore'
 import { useSettingsStore } from '@/stores/settingsStore'
@@ -24,6 +24,7 @@ const menuItems = [
     { path: '/shifts', icon: Clock, label: 'Shift' },
     { path: '/stock-opname', icon: ClipboardList, label: 'Stok Opname' },
     { path: '/discounts', icon: Tag, label: 'Diskon' },
+    { path: '/activity-log', icon: History, label: 'Activity Log' },
     { path: '/users', icon: Users, label: 'Pengguna' },
     { path: '/settings', icon: Settings, label: 'Pengaturan' },
 ]
@@ -58,8 +59,8 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
                                 key={item.path}
                                 to={item.path}
                                 className={`flex items-center gap-3 px-3 py-2 rounded-lg mb-0.5 text-sm ${isActive
-                                        ? 'bg-blue-500/20 text-blue-400 font-medium'
-                                        : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                                    ? 'bg-blue-500/20 text-blue-400 font-medium'
+                                    : 'text-slate-400 hover:bg-slate-800 hover:text-white'
                                     }`}
                             >
                                 <item.icon className="w-4 h-4" />
@@ -99,8 +100,8 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
                     <div className="flex items-center gap-3">
                         {/* Online/Offline Indicator */}
                         <div className={`flex items-center gap-1.5 px-2 py-1 rounded-full text-xs ${isOnline
-                                ? 'bg-emerald-500/20 text-emerald-400'
-                                : 'bg-amber-500/20 text-amber-400'
+                            ? 'bg-emerald-500/20 text-emerald-400'
+                            : 'bg-amber-500/20 text-amber-400'
                             }`}>
                             <div className={`w-1.5 h-1.5 rounded-full ${isOnline ? 'bg-emerald-400' : 'bg-amber-400'}`} />
                             {isOnline ? 'Online' : 'Offline'}

@@ -69,10 +69,15 @@ export default function CategoriesPage() {
     }
 
     const handleDelete = async (category: Category) => {
-        // Check if category has products
-        const products = await db.products.where('category_id').equals(category.id).count()
-        if (products > 0) {
-            alert(`Kategori ini memiliki ${products} produk. Hapus atau pindahkan produk terlebih dahulu.`)
+        // Check if category has ACTIVE products only (ignore deleted products)
+        const activeProducts = await db.products
+            .where('category_id')
+            .equals(category.id)
+            .filter(p => p.is_active !== false)
+            .count()
+
+        if (activeProducts > 0) {
+            alert(`Kategori ini memiliki ${activeProducts} produk aktif. Hapus atau pindahkan produk terlebih dahulu.`)
             return
         }
 

@@ -18,6 +18,7 @@ import CustomersPage from '@/pages/CustomersPage'
 import ShiftsPage from '@/pages/ShiftsPage'
 import StockOpnamePage from '@/pages/StockOpnamePage'
 import DiscountsPage from '@/pages/DiscountsPage'
+import ActivityLogPage from '@/pages/ActivityLogPage'
 
 // Loading component
 function LoadingScreen() {
@@ -84,6 +85,7 @@ export default function App() {
         <Route path="/shifts" element={<ProtectedRoute><ShiftsPage /></ProtectedRoute>} />
         <Route path="/stock-opname" element={<ProtectedRoute><StockOpnamePage /></ProtectedRoute>} />
         <Route path="/discounts" element={<ProtectedRoute><DiscountsPage /></ProtectedRoute>} />
+        <Route path="/activity-log" element={<ProtectedRoute><ActivityLogPage /></ProtectedRoute>} />
         <Route path="/users" element={<ProtectedRoute><UsersPage /></ProtectedRoute>} />
         <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
 

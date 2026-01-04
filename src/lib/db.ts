@@ -2,7 +2,7 @@ import Dexie, { type Table } from 'dexie'
 import type {
     Product, Category, Transaction, TransactionItem,
     HeldTransaction, SyncQueue, StoreSettings, Profile,
-    Customer, Shift, StockAdjustment, Discount, AppNotification
+    Customer, Shift, StockAdjustment, Discount, AppNotification, ActivityLog
 } from '@/types'
 
 export class POSDatabase extends Dexie {
@@ -19,11 +19,12 @@ export class POSDatabase extends Dexie {
     stockAdjustments!: Table<StockAdjustment, string>
     discounts!: Table<Discount, string>
     notifications!: Table<AppNotification, string>
+    activityLogs!: Table<ActivityLog, string>
 
     constructor() {
         super('POSKasirDB')
 
-        this.version(2).stores({
+        this.version(3).stores({
             products: 'id, barcode, category_id, name, is_active',
             categories: 'id, name, sort_order',
             transactions: 'id, transaction_number, cashier_id, customer_id, shift_id, created_at, synced, status',
@@ -36,7 +37,8 @@ export class POSDatabase extends Dexie {
             shifts: 'id, cashier_id, status, opened_at',
             stockAdjustments: 'id, product_id, created_at',
             discounts: 'id, code, is_active',
-            notifications: 'id, type, is_read, created_at'
+            notifications: 'id, type, is_read, created_at',
+            activityLogs: 'id, action, user_id, created_at'
         })
     }
 }
@@ -56,6 +58,7 @@ export async function clearAllData() {
     await db.stockAdjustments.clear()
     await db.discounts.clear()
     await db.notifications.clear()
+    await db.activityLogs.clear()
 }
 
 export async function getProductByBarcode(barcode: string): Promise<Product | undefined> {
@@ -121,4 +124,39 @@ export async function getUnreadNotifications(): Promise<AppNotification[]> {
 
 export async function checkLowStock(): Promise<Product[]> {
     return db.products.filter(p => p.is_active && p.stock <= p.min_stock).toArray()
+}
+
+// Activity Log helpers
+export async function logActivity(
+    action: ActivityLog['action'],
+    description: string,
+    userId: string,
+    userName: string,
+    options?: {
+        entityType?: string
+        entityId?: string
+        entityName?: string
+        details?: Record<string, unknown>
+    }
+) {
+    const log: ActivityLog = {
+        id: `log-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        action,
+        description,
+        user_id: userId,
+        user_name: userName,
+        entity_type: options?.entityType,
+        entity_id: options?.entityId,
+        entity_name: options?.entityName,
+        details: options?.details,
+        created_at: new Date().toISOString()
+    }
+    await db.activityLogs.add(log)
+    return log
+}
+
+export async function getActivityLogs(limit = 100): Promise<ActivityLog[]> {
+    const logs = await db.activityLogs.toArray()
+    logs.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    return logs.slice(0, limit)
 }
