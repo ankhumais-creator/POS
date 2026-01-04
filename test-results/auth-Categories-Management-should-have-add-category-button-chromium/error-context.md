@@ -1,0 +1,214 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e5]:
+      - heading "POS Kasir" [level=1] [ref=e6]
+      - paragraph [ref=e7]: Aplikasi Penjualan
+    - navigation [ref=e8]:
+      - link "Dashboard" [ref=e9] [cursor=pointer]:
+        - /url: /
+        - img [ref=e10]
+        - text: Dashboard
+      - link "Kasir" [ref=e15] [cursor=pointer]:
+        - /url: /pos
+        - img [ref=e16]
+        - text: Kasir
+      - link "Produk" [ref=e20] [cursor=pointer]:
+        - /url: /products
+        - img [ref=e21]
+        - text: Produk
+      - link "Kategori" [ref=e25] [cursor=pointer]:
+        - /url: /categories
+        - img [ref=e26]
+        - text: Kategori
+      - link "Pelanggan" [ref=e28] [cursor=pointer]:
+        - /url: /customers
+        - img [ref=e29]
+        - text: Pelanggan
+      - link "Transaksi" [ref=e33] [cursor=pointer]:
+        - /url: /transactions
+        - img [ref=e34]
+        - text: Transaksi
+      - link "Laporan" [ref=e37] [cursor=pointer]:
+        - /url: /reports
+        - img [ref=e38]
+        - text: Laporan
+      - link "Shift" [ref=e40] [cursor=pointer]:
+        - /url: /shifts
+        - img [ref=e41]
+        - text: Shift
+      - link "Stok Opname" [ref=e44] [cursor=pointer]:
+        - /url: /stock-opname
+        - img [ref=e45]
+        - text: Stok Opname
+      - link "Diskon" [ref=e48] [cursor=pointer]:
+        - /url: /discounts
+        - img [ref=e49]
+        - text: Diskon
+      - link "Pengguna" [ref=e52] [cursor=pointer]:
+        - /url: /users
+        - img [ref=e53]
+        - text: Pengguna
+      - link "Pengaturan" [ref=e58] [cursor=pointer]:
+        - /url: /settings
+        - img [ref=e59]
+        - text: Pengaturan
+    - generic [ref=e62]:
+      - generic [ref=e63]:
+        - generic [ref=e64]: A
+        - generic [ref=e65]:
+          - paragraph [ref=e66]: Admin Test
+          - paragraph [ref=e67]: admin
+      - button "Logout" [ref=e68]:
+        - img [ref=e69]
+        - text: Logout
+  - generic [ref=e72]:
+    - banner [ref=e73]:
+      - heading "Manajemen Kategori" [level=2] [ref=e74]
+      - generic [ref=e75]:
+        - generic [ref=e76]: Online
+        - button [ref=e79]:
+          - img [ref=e80]
+    - main [ref=e83]:
+      - generic [ref=e84]:
+        - generic [ref=e85]:
+          - paragraph [ref=e86]: 12 kategori
+          - button "Tambah Kategori" [ref=e87] [cursor=pointer]:
+            - img [ref=e88]
+            - text: Tambah Kategori
+        - generic [ref=e89]:
+          - generic [ref=e91]:
+            - img [ref=e93]
+            - generic [ref=e100]: M
+            - generic [ref=e101]:
+              - paragraph [ref=e102]: Makanan
+              - paragraph [ref=e103]: "Urutan: 1"
+            - generic [ref=e104]:
+              - button [ref=e105]:
+                - img [ref=e106]
+              - button [ref=e108]:
+                - img [ref=e109]
+          - generic [ref=e113]:
+            - img [ref=e115]
+            - generic [ref=e122]: M
+            - generic [ref=e123]:
+              - paragraph [ref=e124]: Makanan
+              - paragraph [ref=e125]: "Urutan: 2"
+            - generic [ref=e126]:
+              - button [ref=e127]:
+                - img [ref=e128]
+              - button [ref=e130]:
+                - img [ref=e131]
+          - generic [ref=e135]:
+            - img [ref=e137]
+            - generic [ref=e144]: M
+            - generic [ref=e145]:
+              - paragraph [ref=e146]: Minuman
+              - paragraph [ref=e147]: "Urutan: 3"
+            - generic [ref=e148]:
+              - button [ref=e149]:
+                - img [ref=e150]
+              - button [ref=e152]:
+                - img [ref=e153]
+          - generic [ref=e157]:
+            - img [ref=e159]
+            - generic [ref=e166]: M
+            - generic [ref=e167]:
+              - paragraph [ref=e168]: Minuman
+              - paragraph [ref=e169]: "Urutan: 4"
+            - generic [ref=e170]:
+              - button [ref=e171]:
+                - img [ref=e172]
+              - button [ref=e174]:
+                - img [ref=e175]
+          - generic [ref=e179]:
+            - img [ref=e181]
+            - generic [ref=e188]: S
+            - generic [ref=e189]:
+              - paragraph [ref=e190]: Snack
+              - paragraph [ref=e191]: "Urutan: 5"
+            - generic [ref=e192]:
+              - button [ref=e193]:
+                - img [ref=e194]
+              - button [ref=e196]:
+                - img [ref=e197]
+          - generic [ref=e201]:
+            - img [ref=e203]
+            - generic [ref=e210]: S
+            - generic [ref=e211]:
+              - paragraph [ref=e212]: Snack
+              - paragraph [ref=e213]: "Urutan: 6"
+            - generic [ref=e214]:
+              - button [ref=e215]:
+                - img [ref=e216]
+              - button [ref=e218]:
+                - img [ref=e219]
+          - generic [ref=e223]:
+            - img [ref=e225]
+            - generic [ref=e232]: R
+            - generic [ref=e233]:
+              - paragraph [ref=e234]: Rokok
+              - paragraph [ref=e235]: "Urutan: 7"
+            - generic [ref=e236]:
+              - button [ref=e237]:
+                - img [ref=e238]
+              - button [ref=e240]:
+                - img [ref=e241]
+          - generic [ref=e245]:
+            - img [ref=e247]
+            - generic [ref=e254]: R
+            - generic [ref=e255]:
+              - paragraph [ref=e256]: Rokok
+              - paragraph [ref=e257]: "Urutan: 8"
+            - generic [ref=e258]:
+              - button [ref=e259]:
+                - img [ref=e260]
+              - button [ref=e262]:
+                - img [ref=e263]
+          - generic [ref=e267]:
+            - img [ref=e269]
+            - generic [ref=e276]: A
+            - generic [ref=e277]:
+              - paragraph [ref=e278]: ATK
+              - paragraph [ref=e279]: "Urutan: 9"
+            - generic [ref=e280]:
+              - button [ref=e281]:
+                - img [ref=e282]
+              - button [ref=e284]:
+                - img [ref=e285]
+          - generic [ref=e289]:
+            - img [ref=e291]
+            - generic [ref=e298]: A
+            - generic [ref=e299]:
+              - paragraph [ref=e300]: ATK
+              - paragraph [ref=e301]: "Urutan: 10"
+            - generic [ref=e302]:
+              - button [ref=e303]:
+                - img [ref=e304]
+              - button [ref=e306]:
+                - img [ref=e307]
+          - generic [ref=e311]:
+            - img [ref=e313]
+            - generic [ref=e320]: L
+            - generic [ref=e321]:
+              - paragraph [ref=e322]: Lainnya
+              - paragraph [ref=e323]: "Urutan: 11"
+            - generic [ref=e324]:
+              - button [ref=e325]:
+                - img [ref=e326]
+              - button [ref=e328]:
+                - img [ref=e329]
+          - generic [ref=e333]:
+            - img [ref=e335]
+            - generic [ref=e342]: L
+            - generic [ref=e343]:
+              - paragraph [ref=e344]: Lainnya
+              - paragraph [ref=e345]: "Urutan: 12"
+            - generic [ref=e346]:
+              - button [ref=e347]:
+                - img [ref=e348]
+              - button [ref=e350]:
+                - img [ref=e351]
+```

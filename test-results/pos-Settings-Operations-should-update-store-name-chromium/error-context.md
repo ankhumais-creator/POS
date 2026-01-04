@@ -1,0 +1,106 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e5]:
+      - heading "POS Kasir" [level=1] [ref=e6]
+      - paragraph [ref=e7]: Aplikasi Penjualan
+    - navigation [ref=e8]:
+      - link "Dashboard" [ref=e9] [cursor=pointer]:
+        - /url: /
+        - img [ref=e10]
+        - text: Dashboard
+      - link "Kasir" [ref=e15] [cursor=pointer]:
+        - /url: /pos
+        - img [ref=e16]
+        - text: Kasir
+      - link "Produk" [ref=e20] [cursor=pointer]:
+        - /url: /products
+        - img [ref=e21]
+        - text: Produk
+      - link "Kategori" [ref=e25] [cursor=pointer]:
+        - /url: /categories
+        - img [ref=e26]
+        - text: Kategori
+      - link "Pelanggan" [ref=e28] [cursor=pointer]:
+        - /url: /customers
+        - img [ref=e29]
+        - text: Pelanggan
+      - link "Transaksi" [ref=e33] [cursor=pointer]:
+        - /url: /transactions
+        - img [ref=e34]
+        - text: Transaksi
+      - link "Laporan" [ref=e37] [cursor=pointer]:
+        - /url: /reports
+        - img [ref=e38]
+        - text: Laporan
+      - link "Shift" [ref=e40] [cursor=pointer]:
+        - /url: /shifts
+        - img [ref=e41]
+        - text: Shift
+      - link "Stok Opname" [ref=e44] [cursor=pointer]:
+        - /url: /stock-opname
+        - img [ref=e45]
+        - text: Stok Opname
+      - link "Diskon" [ref=e48] [cursor=pointer]:
+        - /url: /discounts
+        - img [ref=e49]
+        - text: Diskon
+      - link "Pengguna" [ref=e52] [cursor=pointer]:
+        - /url: /users
+        - img [ref=e53]
+        - text: Pengguna
+      - link "Pengaturan" [ref=e58] [cursor=pointer]:
+        - /url: /settings
+        - img [ref=e59]
+        - text: Pengaturan
+    - generic [ref=e62]:
+      - generic [ref=e63]:
+        - generic [ref=e64]: A
+        - generic [ref=e65]:
+          - paragraph [ref=e66]: Admin Test
+          - paragraph [ref=e67]: admin
+      - button "Logout" [ref=e68]:
+        - img [ref=e69]
+        - text: Logout
+  - generic [ref=e72]:
+    - banner [ref=e73]:
+      - heading "Pengaturan" [level=2] [ref=e74]
+      - generic [ref=e75]:
+        - generic [ref=e76]: Online
+        - button [ref=e79]:
+          - img [ref=e80]
+    - main [ref=e83]:
+      - generic [ref=e84]:
+        - generic [ref=e85]:
+          - generic [ref=e86]:
+            - img [ref=e87]
+            - generic [ref=e91]: Informasi Toko
+          - generic [ref=e92]:
+            - generic [ref=e93]:
+              - generic [ref=e94]:
+                - generic [ref=e95]: Nama Toko *
+                - 'textbox "contoh: Toko Makmur Jaya" [active] [ref=e96]': Toko Test E2E
+              - generic [ref=e97]:
+                - generic [ref=e98]: Alamat
+                - 'textbox "contoh: Jl. Raya No. 123, Jakarta" [ref=e99]': Jl. Raya No. 123, Jakarta
+              - generic [ref=e100]:
+                - generic [ref=e101]: Telepon
+                - 'textbox "contoh: 021-12345678" [ref=e102]': 021-12345678
+              - generic [ref=e103]:
+                - generic [ref=e104]: Footer Struk
+                - 'textbox "contoh: Terima kasih atas kunjungan Anda!" [ref=e105]': Terima kasih atas kunjungan Anda!
+                - paragraph [ref=e106]: Teks ini akan muncul di bagian bawah struk
+            - button "Simpan Pengaturan" [ref=e108] [cursor=pointer]:
+              - img [ref=e109]
+              - text: Simpan Pengaturan
+        - generic [ref=e113]:
+          - heading "Tentang Aplikasi" [level=3] [ref=e114]
+          - generic [ref=e115]:
+            - paragraph [ref=e116]:
+              - strong [ref=e117]: POS Kasir PWA
+              - text: v1.0.0
+            - paragraph [ref=e118]: Aplikasi Point of Sale dengan fitur offline-first
+            - paragraph [ref=e119]: © 2026 - All rights reserved
+```

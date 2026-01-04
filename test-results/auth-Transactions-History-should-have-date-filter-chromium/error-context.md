@@ -1,0 +1,107 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e5]:
+      - heading "POS Kasir" [level=1] [ref=e6]
+      - paragraph [ref=e7]: Aplikasi Penjualan
+    - navigation [ref=e8]:
+      - link "Dashboard" [ref=e9] [cursor=pointer]:
+        - /url: /
+        - img [ref=e10]
+        - text: Dashboard
+      - link "Kasir" [ref=e15] [cursor=pointer]:
+        - /url: /pos
+        - img [ref=e16]
+        - text: Kasir
+      - link "Produk" [ref=e20] [cursor=pointer]:
+        - /url: /products
+        - img [ref=e21]
+        - text: Produk
+      - link "Kategori" [ref=e25] [cursor=pointer]:
+        - /url: /categories
+        - img [ref=e26]
+        - text: Kategori
+      - link "Pelanggan" [ref=e28] [cursor=pointer]:
+        - /url: /customers
+        - img [ref=e29]
+        - text: Pelanggan
+      - link "Transaksi" [ref=e33] [cursor=pointer]:
+        - /url: /transactions
+        - img [ref=e34]
+        - text: Transaksi
+      - link "Laporan" [ref=e37] [cursor=pointer]:
+        - /url: /reports
+        - img [ref=e38]
+        - text: Laporan
+      - link "Shift" [ref=e40] [cursor=pointer]:
+        - /url: /shifts
+        - img [ref=e41]
+        - text: Shift
+      - link "Stok Opname" [ref=e44] [cursor=pointer]:
+        - /url: /stock-opname
+        - img [ref=e45]
+        - text: Stok Opname
+      - link "Diskon" [ref=e48] [cursor=pointer]:
+        - /url: /discounts
+        - img [ref=e49]
+        - text: Diskon
+      - link "Pengguna" [ref=e52] [cursor=pointer]:
+        - /url: /users
+        - img [ref=e53]
+        - text: Pengguna
+      - link "Pengaturan" [ref=e58] [cursor=pointer]:
+        - /url: /settings
+        - img [ref=e59]
+        - text: Pengaturan
+    - generic [ref=e62]:
+      - generic [ref=e63]:
+        - generic [ref=e64]: A
+        - generic [ref=e65]:
+          - paragraph [ref=e66]: Admin Test
+          - paragraph [ref=e67]: admin
+      - button "Logout" [ref=e68]:
+        - img [ref=e69]
+        - text: Logout
+  - generic [ref=e72]:
+    - banner [ref=e73]:
+      - heading "Riwayat Transaksi" [level=2] [ref=e74]
+      - generic [ref=e75]:
+        - generic [ref=e76]: Online
+        - button [ref=e79]:
+          - img [ref=e80]
+    - main [ref=e83]:
+      - generic [ref=e84]:
+        - generic [ref=e85]:
+          - generic [ref=e86]:
+            - img [ref=e87]
+            - textbox "Cari no. transaksi..." [ref=e90]
+          - combobox [ref=e91]:
+            - option "Hari Ini" [selected]
+            - option "7 Hari Terakhir"
+            - option "30 Hari Terakhir"
+            - option "Semua"
+        - generic [ref=e92]:
+          - generic [ref=e93]:
+            - paragraph [ref=e94]: Total Transaksi
+            - paragraph [ref=e95]: "0"
+          - generic [ref=e96]:
+            - paragraph [ref=e97]: Total Penjualan
+            - paragraph [ref=e98]: Rp 0
+        - table [ref=e101]:
+          - rowgroup [ref=e102]:
+            - row "No. Transaksi Total Metode Status Sync Waktu Aksi" [ref=e103]:
+              - columnheader "No. Transaksi" [ref=e104]
+              - columnheader "Total" [ref=e105]
+              - columnheader "Metode" [ref=e106]
+              - columnheader "Status" [ref=e107]
+              - columnheader "Sync" [ref=e108]
+              - columnheader "Waktu" [ref=e109]
+              - columnheader "Aksi" [ref=e110]
+          - rowgroup [ref=e111]:
+            - row "Belum ada transaksi" [ref=e112]:
+              - cell "Belum ada transaksi" [ref=e113]:
+                - img [ref=e114]
+                - paragraph [ref=e117]: Belum ada transaksi
+```
