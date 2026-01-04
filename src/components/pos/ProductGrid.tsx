@@ -21,7 +21,7 @@ export default function ProductGrid({ products, onAddProduct }: ProductGridProps
 
     return (
         <div className="flex-1 overflow-auto p-4" data-testid="product-grid">
-            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
                 {products.map(product => (
                     <button
                         type="button"

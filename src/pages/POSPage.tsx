@@ -12,6 +12,7 @@ import Cart from '@/components/pos/Cart'
 import PaymentModal from '@/components/pos/PaymentModal'
 import Receipt from '@/components/pos/Receipt'
 import BarcodeScanner from '@/components/pos/BarcodeScanner'
+import MobileTabBar from '@/components/pos/MobileTabBar'
 
 export default function POSPage() {
     const [products, setProducts] = useState<Product[]>([])
@@ -31,6 +32,9 @@ export default function POSPage() {
     const [showCustomerSearch, setShowCustomerSearch] = useState(false)
     const [customerSearch, setCustomerSearch] = useState('')
     const [customerResults, setCustomerResults] = useState<Customer[]>([])
+
+    // Mobile tab state
+    const [activeTab, setActiveTab] = useState<'products' | 'cart'>('products')
 
     // Shift check
     const [hasActiveShift, setHasActiveShift] = useState(true)
@@ -162,9 +166,9 @@ export default function POSPage() {
 
     return (
         <MainLayout title="Kasir">
-            <div className="flex gap-4 h-[calc(100vh-7rem)]">
+            <div className="flex gap-4 h-[calc(100vh-7rem)] relative">
                 {/* Left - Products */}
-                <div className="flex-1 flex flex-col min-w-0">
+                <div className={`flex-1 flex flex-col min-w-0 ${activeTab === 'cart' ? 'hidden md:flex' : 'flex'}`}>
                     {/* Search & Actions */}
                     <div className="flex gap-2 mb-3">
                         <div className="flex-1 relative">
@@ -218,7 +222,7 @@ export default function POSPage() {
                 </div>
 
                 {/* Right - Cart */}
-                <div className="w-80 flex flex-col bg-slate-900 rounded-xl border border-slate-800">
+                <div className={`w-full md:w-80 flex flex-col bg-slate-900 rounded-xl border border-slate-800 ${activeTab === 'products' ? 'hidden md:flex' : 'flex'} ${activeTab === 'cart' ? 'mb-16 md:mb-0' : ''}`}>
                     {/* Customer Selection */}
                     <div className="p-3 border-b border-slate-800">
                         {selectedCustomer ? (
@@ -318,6 +322,14 @@ export default function POSPage() {
                     </div>
                 </div>
             </div>
+
+            {/* Mobile Tab Bar */}
+            <MobileTabBar
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+                itemCount={items.length}
+                total={total}
+            />
 
             {/* Modals */}
             {showScanner && (
