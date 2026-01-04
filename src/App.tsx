@@ -54,7 +54,8 @@ export default function App() {
   useEffect(() => {
     const init = async () => {
       try {
-        await seedDemoData()
+        // Demo data disabled - start with clean database
+        // await seedDemoData()
         await initializeSync()
         setLoading(false)
       } catch (error) {
