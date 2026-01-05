@@ -65,11 +65,11 @@ export async function seedDemoData(): Promise<void> {
     // Check if data already exists
     const existingCategories = await db.categories.count()
     if (existingCategories > 0) {
-        console.log('Demo data already exists, skipping seed')
+        // Data already exists
         return
     }
 
-    console.log('Seeding demo data...')
+    // Seeding demo data
 
     // Create categories
     const categoryIds: Record<string, string> = {}
@@ -105,5 +105,5 @@ export async function seedDemoData(): Promise<void> {
         })
     }
 
-    console.log('Demo data seeded successfully!')
+    // Database seeded
 }

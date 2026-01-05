@@ -5,7 +5,7 @@
 // Generate unique ID
 export function generateId(): string {
     return crypto.randomUUID ? crypto.randomUUID() :
-        `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+        `${Date.now()}-${Math.random().toString(36).substring(2, 11)}`
 }
 
 // Format currency (IDR) - Always shows "Rp" prefix
@@ -68,7 +68,7 @@ export function generateTransactionNumber(): string {
     const now = new Date()
     const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '')
     const timeStr = now.toTimeString().slice(0, 8).replace(/:/g, '')
-    const random = Math.random().toString(36).substr(2, 4).toUpperCase()
+    const random = Math.random().toString(36).substring(2, 6).toUpperCase()
     return `TRX-${dateStr}-${timeStr.slice(0, 4)}-${random}`
 }
 
@@ -116,7 +116,7 @@ export function cn(...classes: (string | boolean | undefined | null)[]): string 
 
 // Parse number from formatted string
 export function parseNumber(value: string): number {
-    return parseFloat(value.replace(/[^0-9.-]+/g, '')) || 0
+    return Number.parseFloat(value.replace(/[^0-9.-]+/g, '')) || 0
 }
 
 // Validate email

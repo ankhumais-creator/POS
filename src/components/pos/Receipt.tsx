@@ -38,7 +38,7 @@ Terima kasih!
                     text: receiptText
                 })
             } catch (err) {
-                console.log('Share cancelled')
+                // Share cancelled
             }
         } else {
             // Fallback: copy to clipboard

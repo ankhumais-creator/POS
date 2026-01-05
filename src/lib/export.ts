@@ -1,5 +1,5 @@
 import * as XLSX from 'xlsx'
-import { formatCurrency, formatDate } from './utils'
+import { formatDate } from './utils'
 import type { Transaction, TransactionItem } from '@/types'
 
 interface ExportData {

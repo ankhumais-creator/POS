@@ -109,7 +109,7 @@ export default function BarcodeScanner({ onScan, onClose }: BarcodeScannerProps)
                         }
                     }
                 } catch (err) {
-                    console.log('Barcode detection error:', err)
+                    // Barcode detection error
                 }
             }
 

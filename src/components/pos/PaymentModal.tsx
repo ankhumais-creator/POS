@@ -7,10 +7,10 @@ import { useAuthStore } from '@/stores/authStore'
 import type { Transaction, TransactionItem, Customer } from '@/types'
 
 interface PaymentModalProps {
-    onClose: () => void
-    onComplete: (transaction: Transaction & { items: TransactionItem[] }) => void
-    customer?: Customer | null
-    discountCode?: string
+    readonly onClose: () => void
+    readonly onComplete: (transaction: Transaction & { items: TransactionItem[] }) => void
+    readonly customer?: Customer | null
+    readonly discountCode?: string
 }
 
 const paymentMethods = [
@@ -27,7 +27,7 @@ export default function PaymentModal({ onClose, onComplete, customer, discountCo
     const [paymentAmount, setPaymentAmount] = useState('')
     const [isProcessing, setIsProcessing] = useState(false)
 
-    const amount = parseFloat(paymentAmount) || 0
+    const amount = Number.parseFloat(paymentAmount) || 0
     const change = Math.max(0, amount - total)
     const canPay = paymentMethod !== 'cash' || amount >= total
 
@@ -182,8 +182,8 @@ export default function PaymentModal({ onClose, onComplete, customer, discountCo
                                 <button
                                     key={method.id}
                                     className={`p-3 rounded-lg border text-center ${paymentMethod === method.id
-                                            ? `bg-${method.color}-500 border-${method.color}-500`
-                                            : 'border-slate-700 hover:border-slate-600'
+                                        ? `bg-${method.color}-500 border-${method.color}-500`
+                                        : 'border-slate-700 hover:border-slate-600'
                                         }`}
                                     onClick={() => setPaymentMethod(method.id as any)}
                                 >

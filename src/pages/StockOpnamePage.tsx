@@ -46,13 +46,13 @@ export default function StockOpnamePage() {
     const handleSubmit = async () => {
         if (!selectedProduct || !quantity || !user) return
 
-        const newQty = parseInt(quantity)
+        const newQty = Number.parseInt(quantity, 10)
         let adjustmentQty = newQty
 
         if (adjustmentType === 'opname') {
             adjustmentQty = newQty - selectedProduct.stock
         } else if (adjustmentType === 'out') {
-            adjustmentQty = -Math.abs(parseInt(quantity))
+            adjustmentQty = -Math.abs(Number.parseInt(quantity, 10))
         }
 
         const finalStock = adjustmentType === 'opname'

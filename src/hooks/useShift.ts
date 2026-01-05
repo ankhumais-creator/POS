@@ -57,7 +57,7 @@ export function useShift() {
             opening_cash: openingCash,
             closing_cash: 0,
             expected_cash: openingCash,
-            cash_difference: 0,
+            difference: 0,
             total_sales: 0,
             total_transactions: 0,
             notes: notes || '',
@@ -77,12 +77,12 @@ export function useShift() {
             throw new Error('No open shift to close')
         }
 
-        const cashDifference = closingCash - currentShift.expected_cash
+        const cashDifference = closingCash - (currentShift.expected_cash ?? currentShift.opening_cash)
 
         const updates = {
             status: 'closed' as const,
             closing_cash: closingCash,
-            cash_difference: cashDifference,
+            difference: cashDifference,
             notes: notes || currentShift.notes,
             closed_at: new Date().toISOString()
         }
@@ -100,7 +100,7 @@ export function useShift() {
         const updates = {
             total_sales: currentShift.total_sales + amount,
             total_transactions: currentShift.total_transactions + 1,
-            expected_cash: currentShift.expected_cash + amount
+            expected_cash: (currentShift.expected_cash ?? currentShift.opening_cash) + amount
         }
 
         await db.shifts.update(currentShift.id, updates)

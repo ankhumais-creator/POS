@@ -4,7 +4,7 @@
 import { db } from './db'
 
 export async function clearAllLocalData(): Promise<void> {
-    console.log('Clearing all local data...')
+    // Clearing local data
 
     // Clear IndexedDB
     await db.products.clear()
@@ -23,10 +23,10 @@ export async function clearAllLocalData(): Promise<void> {
     // Clear localStorage
     localStorage.clear()
 
-    console.log('All local data cleared!')
+    // Data cleared
 }
 
 // Export for console use
-if (typeof window !== 'undefined') {
-    (window as any).clearAllLocalData = clearAllLocalData
+if (typeof globalThis.window !== 'undefined') {
+    (globalThis as any).clearAllLocalData = clearAllLocalData
 }

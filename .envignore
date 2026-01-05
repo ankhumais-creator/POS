@@ -1,0 +1,17 @@
+node_modules
+.git
+.env*
+.DS_Store
+test-results
+playwright-report
+dist
+build
+*.log
+.vscode
+.idea
+coverage
+.cache
+*.swp
+*.swo
+*~
+.vercel

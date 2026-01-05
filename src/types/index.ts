@@ -23,6 +23,7 @@ export interface Category {
     color: string
     sort_order: number
     created_at: string
+    [key: string]: unknown
 }
 
 export interface Product {
@@ -38,6 +39,7 @@ export interface Product {
     is_active: boolean
     created_at: string
     updated_at: string
+    [key: string]: unknown
 }
 
 export interface Transaction {
@@ -57,6 +59,7 @@ export interface Transaction {
     notes?: string
     synced: boolean
     created_at: string
+    [key: string]: unknown
 }
 
 export interface TransactionItem {
@@ -68,6 +71,7 @@ export interface TransactionItem {
     quantity: number
     discount: number
     subtotal: number
+    [key: string]: unknown
 }
 
 export interface HeldTransaction {
@@ -154,6 +158,7 @@ export interface Customer {
     visit_count: number
     created_at: string
     updated_at: string
+    [key: string]: unknown
 }
 
 // Shift Types
@@ -171,6 +176,7 @@ export interface Shift {
     opened_at: string
     closed_at?: string
     notes?: string
+    [key: string]: unknown
 }
 
 // Stock Adjustment Types
@@ -185,6 +191,7 @@ export interface StockAdjustment {
     reason: string
     created_by: string
     created_at: string
+    [key: string]: unknown
 }
 
 // Discount/Promo Types
@@ -202,6 +209,7 @@ export interface Discount {
     end_date?: string
     is_active: boolean
     created_at: string
+    [key: string]: unknown
 }
 
 // Notification Types
