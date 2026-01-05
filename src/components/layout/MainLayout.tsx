@@ -4,15 +4,15 @@ import { useTranslation } from 'react-i18next'
 import {
     LayoutDashboard, ShoppingCart, Package, FolderOpen,
     Receipt, BarChart3, Settings, LogOut, Users, Clock,
-    Tag, ClipboardList, UserCircle, History, Menu, X, Globe
+    Tag, ClipboardList, UserCircle, History, Menu, X
 } from 'lucide-react'
 import { useAuthStore } from '@/stores/authStore'
 import { useSettingsStore } from '@/stores/settingsStore'
 import NotificationBell from '@/components/NotificationBell'
 
 interface MainLayoutProps {
-    children: React.ReactNode
-    title?: string
+    readonly children: React.ReactNode
+    readonly title?: string
 }
 
 const menuItems = [
@@ -53,8 +53,11 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
             {/* Mobile Overlay */}
             {isDrawerOpen && (
                 <div
+                    role="button"
+                    tabIndex={0}
                     className="fixed inset-0 bg-black/50 z-40 lg:hidden"
                     onClick={() => setIsDrawerOpen(false)}
+                    onKeyDown={(e) => e.key === 'Escape' && setIsDrawerOpen(false)}
                 />
             )}
 
