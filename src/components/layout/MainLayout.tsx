@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import {
     LayoutDashboard, ShoppingCart, Package, FolderOpen,
     Receipt, BarChart3, Settings, LogOut, Users, Clock,
-    Tag, ClipboardList, UserCircle, History, Menu, X
+    Tag, ClipboardList, UserCircle, History, Menu, X, Globe
 } from 'lucide-react'
 import { useAuthStore } from '@/stores/authStore'
 import { useSettingsStore } from '@/stores/settingsStore'
@@ -15,22 +16,23 @@ interface MainLayoutProps {
 }
 
 const menuItems = [
-    { path: '/', icon: LayoutDashboard, label: 'Dashboard' },
-    { path: '/pos', icon: ShoppingCart, label: 'Kasir' },
-    { path: '/products', icon: Package, label: 'Produk' },
-    { path: '/categories', icon: FolderOpen, label: 'Kategori' },
-    { path: '/customers', icon: UserCircle, label: 'Pelanggan' },
-    { path: '/transactions', icon: Receipt, label: 'Transaksi' },
-    { path: '/reports', icon: BarChart3, label: 'Laporan' },
-    { path: '/shifts', icon: Clock, label: 'Shift' },
-    { path: '/stock-opname', icon: ClipboardList, label: 'Stok Opname' },
-    { path: '/discounts', icon: Tag, label: 'Diskon' },
-    { path: '/activity-log', icon: History, label: 'Activity Log' },
-    { path: '/users', icon: Users, label: 'Pengguna' },
-    { path: '/settings', icon: Settings, label: 'Pengaturan' },
+    { path: '/', icon: LayoutDashboard, labelKey: 'nav.dashboard' },
+    { path: '/pos', icon: ShoppingCart, labelKey: 'nav.pos' },
+    { path: '/products', icon: Package, labelKey: 'nav.products' },
+    { path: '/categories', icon: FolderOpen, labelKey: 'nav.categories' },
+    { path: '/customers', icon: UserCircle, labelKey: 'nav.customers' },
+    { path: '/transactions', icon: Receipt, labelKey: 'nav.transactions' },
+    { path: '/reports', icon: BarChart3, labelKey: 'nav.reports' },
+    { path: '/shifts', icon: Clock, labelKey: 'nav.shifts' },
+    { path: '/stock-opname', icon: ClipboardList, labelKey: 'nav.stockOpname' },
+    { path: '/discounts', icon: Tag, labelKey: 'nav.discounts' },
+    { path: '/activity-log', icon: History, labelKey: 'nav.activityLog' },
+    { path: '/users', icon: Users, labelKey: 'nav.users' },
+    { path: '/settings', icon: Settings, labelKey: 'nav.settings' },
 ]
 
 export default function MainLayout({ children, title }: MainLayoutProps) {
+    const { t, i18n } = useTranslation()
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
     const location = useLocation()
     const navigate = useNavigate()
@@ -93,7 +95,7 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
                                     }`}
                             >
                                 <item.icon className="w-4 h-4" />
-                                {item.label}
+                                {t(item.labelKey)}
                             </Link>
                         )
                     })}
@@ -110,12 +112,27 @@ export default function MainLayout({ children, title }: MainLayoutProps) {
                             <p className="text-xs text-slate-500 capitalize">{user?.role || 'kasir'}</p>
                         </div>
                     </div>
+                    {/* Language Switcher */}
+                    <div className="flex gap-1 mb-2 px-1">
+                        <button
+                            onClick={() => i18n.changeLanguage('id')}
+                            className={`flex-1 px-2 py-1 rounded text-xs ${i18n.language === 'id' ? 'bg-blue-500 text-white' : 'bg-slate-800 text-slate-400'}`}
+                        >
+                            ID
+                        </button>
+                        <button
+                            onClick={() => i18n.changeLanguage('en')}
+                            className={`flex-1 px-2 py-1 rounded text-xs ${i18n.language === 'en' ? 'bg-blue-500 text-white' : 'bg-slate-800 text-slate-400'}`}
+                        >
+                            EN
+                        </button>
+                    </div>
                     <button
                         onClick={handleLogout}
                         className="w-full flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg text-sm text-slate-400 hover:bg-slate-800 hover:text-white"
                     >
                         <LogOut className="w-4 h-4" />
-                        Logout
+                        {t('nav.logout')}
                     </button>
                 </div>
             </aside>
